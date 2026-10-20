@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Smart Battery Analyzer - Fixed</title>
-    <!-- Memuat Library Firebase -->
+    <title>Smart Battery Analyzer - Fixed Dashboard</title>
+    <!-- Memuat Library Firebase v8 Resmi secara Utuh -->
     <script src="https://gstatic.com"></script>
     <script src="https://gstatic.com"></script>
 
@@ -46,7 +46,9 @@
             cursor: pointer;
             background-color: #00adb5;
             color: white;
+            transition: opacity 0.2s;
         }
+        button:hover { opacity: 0.9; }
         .btn-charge { background-color: #28c76f; color: white; }
         .btn-test { background-color: #00adb5; color: white; }
     </style>
@@ -55,9 +57,8 @@
 
     <h1>SMART BATTERY ANALYZER DASHBOARD</h1>
     
-    <!-- Wadah Grid Utama -->
     <div class="grid" id="dashboard-grid">
-        <!-- Paksa gambar 6 slot langsung lewat HTML murni agar tidak bisa hilang -->
+        <!-- 6 Kartu Slot yang dipaksa muncul sejak awal -->
         <div class="card">
             <h3>SLOT 1</h3>
             <div class="data-line"><span>Tegangan:</span> <span class="value" id="volt-1">0.00 V</span></div>
@@ -127,6 +128,7 @@
     </div>
 
     <script>
+        // Konfigurasi Lengkap Firebase Sesuai Akun SDK Regional Asia Anda
         const firebaseConfig = {
           apiKey: "AIzaSyAR5OzScCw3TcQLmK0fAi5qO2UITlCtW3A",
           authDomain: "://firebaseapp.com",
@@ -141,6 +143,7 @@
             firebase.initializeApp(firebaseConfig);
             const database = firebase.database();
 
+            // Mendengarkan data sensor real-time
             database.ref('/').on('value', (snapshot) => {
                 const data = snapshot.val();
                 if (!data) return;
@@ -156,14 +159,16 @@
                 }
             });
 
+            // Mengirim perintah remote kontrol
             function kirimPerintah(kodePerintah) {
                 database.ref('/kontrol').set(kodePerintah)
-                    .then(() => alert("Perintah " + kodePerintah.toUpperCase() + " Terkirim!"))
-                    .catch((error) => alert("Gagal: " + error.message));
+                    .then(() => alert("Perintah " + kodePerintah.toUpperCase() + " Berhasil Dikirim!"))
+                    .catch((error) => alert("Gagal kirim perintah: " + error.message));
             }
+            // Bind fungsi ke window scope agar bisa dipanggil onclick HTML
             window.kirimPerintah = kirimPerintah;
         } catch(e) {
-            console.error("Firebase Error:", e);
+            console.error("Firebase Initialization Error:", e);
         }
     </script>
 </body>
