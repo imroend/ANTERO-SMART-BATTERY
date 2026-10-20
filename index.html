@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart Battery Analyzer - Dashboard Global</title>
+    <style>
+        body { background-color: #121212; color: #e0e0e0; font-family: 'Segoe UI', Arial, sans-serif; text-align: center; margin: 0; padding: 20px; }
+        h1 { color: #00adb5; margin-bottom: 5px; font-size: 24px; font-weight: bold; }
+        #debug-status { color: #ff9f43; font-size: 13px; margin-bottom: 25px; font-style: italic; }
+        .grid-container { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; max-width: 1000px; margin: 0 auto; }
+        .card { background-color: #1e1e1e; border: 1px solid #2d2d2d; border-radius: 12px; padding: 20px; text-align: left; box-shadow: 0 4px 6px rgba(0,0,0,0.3); }
+        .card h2 { color: #00adb5; margin-top: 0; border-bottom: 2px solid #2d2d2d; padding-bottom: 5px; font-size: 20px; text-align: center; }
+        .data-row { display: flex; justify-content: space-between; margin: 10px 0; font-size: 14px; }
+        .label { color: #a0a0a0; }
+        .value { font-weight: bold; color: #ffffff; }
+        .status-val { font-weight: bold; color: #ff9f43; text-transform: uppercase; }
+    </style>
+</head>
+<body>
+
+    <h1>SMART BATTERY ANALYZER DASHBOARD GLOBAL</h1>
+    <div id="debug-status">Menghubungkan ke server Firebase...</div>
+    
+    <div class="grid-container" id="dashboard-grid">
+        <!-- Slot 1 sampai 6 di-generate oleh JS -->
+    </div>
+
+    <script type="module">
+        import { initializeApp } from "https://gstatic.com";
+        import { getDatabase, ref, onValue } from "https://gstatic.com";
+
+        // Konfigurasi Web Firebase Anda
+        const firebaseConfig = {
+            apiKey: "AIzaSyAR5OzScCw3TcQLmK0fAi5qO2UITlCtW3A",
+            authDomain: "://firebaseapp.com",
+            databaseURL: "https://firebasedatabase.app",
+            projectId: "antero-smart-battery-eb4fd",
+            storageBucket: "://appspot.com",
+        };
+
+        // Inisialisasi Firebase
+        const app = initializeApp(firebaseConfig);
+        const db = getDatabase(app);
+
+        // Gambar Kerangka Visual 6 Slot
+        const grid = document.getElementById("dashboard-grid");
+        for (let i = 1; i <= 6; i++) {
+            grid.innerHTML += `
+                <div class="card">
+                    <h2>SLOT ${i}</h2>
+                    <div class="data-row"><span class="label">Tegangan:</span><span class="value" id="volt-${i}">0.00 V</span></div>
+                    <div class="data-row"><span class="label">Kapasitas:</span><span class="value" id="mah-${i}">0 mAh</span></div>
+                    <div class="data-row"><span class="label">Hambatan Dalam:</span><span class="value" id="ir-${i}">0 mOhm</span></div>
+                    <div class="data-row"><span class="label">Status Alat:</span><span class="status-val" id="status-${i}">KOSONG</span></div>
+                </div>
+            `;
+        }
+
+        const debugStatus = document.getElementById("debug-status");
+        const dbRef = ref(db, '/');
+
+        // MENGAKTIFKAN LISTENER ONLINE
+        onValue(dbRef, (snapshot) => {
+            const data = snapshot.val();
+            
+            if (!data) {
+                debugStatus.innerText = "Koneksi Sukses, tetapi DATABASE ANDA KOSONG (Belum ada data masuk).";
+                return;
+            }
+
+            debugStatus.innerText = "🟢 Terhubung Secara Online - Sinkronisasi Real-Time Aktif";
+            console.log("Data Firebase:", data); // Bisa Anda cek lewat Inspect Element (F12)
+
+            // Mengonversi seluruh kunci data ke huruf kecil agar anti-bentrok nama
+            const normalizedData = {};
+            Object.keys(data).forEach(key => {
+                normalizedData[key.toLowerCase()] = data[key];
+            });
+
+            for (let i = 1; i <= 6; i++) {
+                // Skrip ini sekarang otomatis mendeteksi 'slot1', 'Slot1', maupun 'SLOT1'
+                const slotKey = `slot${i}`;
+                
+                if (normalizedData[slotKey]) {
+                    const slotData = normalizedData[slotKey];
+                    
+                    if (slotData.volt !== undefined) document.getElementById(`volt-${i}`).innerText = parseFloat(slotData.volt).toFixed(2) + " V";
+                    if (slotData.mah !== undefined) document.getElementById(`mah-${i}`).innerText = slotData.mah + " mAh";
+                    if (slotData.ir !== undefined) document.getElementById(`ir-${i}`).innerText = slotData.ir + " mOhm";
+                    if (slotData.status !== undefined) document.getElementById(`status-${i}`).innerText = slotData.status;
+                }
+            }
+        }, (error) => {
+            debugStatus.innerText = "🔴 Gagal memuat data: " + error.message + ". Periksa kembali Rules Firebase Anda.";
+        });
+    </script>
+</body>
+</html>
