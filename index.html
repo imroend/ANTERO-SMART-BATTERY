@@ -3,12 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Smart Battery Analyzer - Fixed Dashboard</title>
-    <!-- Memuat Library Firebase v8 Resmi secara Utuh -->
+    <title>Smart Battery Analyzer - Dashboard Global</title>
+    <!-- Library Firebase v8 Resmi -->
     <script src="https://gstatic.com"></script>
     <script src="https://gstatic.com"></script>
-    <script src="https://gstatic.com"></script>
-
 
     <style>
         body {
@@ -48,9 +46,7 @@
             cursor: pointer;
             background-color: #00adb5;
             color: white;
-            transition: opacity 0.2s;
         }
-        button:hover { opacity: 0.9; }
         .btn-charge { background-color: #28c76f; color: white; }
         .btn-test { background-color: #00adb5; color: white; }
     </style>
@@ -59,78 +55,29 @@
 
     <h1>SMART BATTERY ANALYZER DASHBOARD</h1>
     
-    <div class="grid" id="dashboard-grid">
-        <!-- 6 Kartu Slot yang dipaksa muncul sejak awal -->
-        <div class="card">
-            <h3>SLOT 1</h3>
-            <div class="data-line"><span>Tegangan:</span> <span class="value" id="volt-1">0.00 V</span></div>
-            <div class="data-line"><span>Kapasitas:</span> <span class="value" id="mah-1">0 mAh</span></div>
-            <div class="data-line"><span>Hambatan Dalam:</span> <span class="value" id="ir-1">0 mOhm</span></div>
-            <div class="data-line"><span>Status Alat:</span> <span class="status-val" id="status-1">MEMBACA...</span></div>
-            <div class="btn-group">
-                <button class="btn-charge" onclick="kirimPerintah('c1')">CHARGE</button>
-                <button class="btn-test" onclick="kirimPerintah('t1')">SMART TEST</button>
-            </div>
-        </div>
-        <div class="card">
-            <h3>SLOT 2</h3>
-            <div class="data-line"><span>Tegangan:</span> <span class="value" id="volt-2">0.00 V</span></div>
-            <div class="data-line"><span>Kapasitas:</span> <span class="value" id="mah-2">0 mAh</span></div>
-            <div class="data-line"><span>Hambatan Dalam:</span> <span class="value" id="ir-2">0 mOhm</span></div>
-            <div class="data-line"><span>Status Alat:</span> <span class="status-val" id="status-2">MEMBACA...</span></div>
-            <div class="btn-group">
-                <button class="btn-charge" onclick="kirimPerintah('c2')">CHARGE</button>
-                <button class="btn-test" onclick="kirimPerintah('t2')">SMART TEST</button>
-            </div>
-        </div>
-        <div class="card">
-            <h3>SLOT 3</h3>
-            <div class="data-line"><span>Tegangan:</span> <span class="value" id="volt-3">0.00 V</span></div>
-            <div class="data-line"><span>Kapasitas:</span> <span class="value" id="mah-3">0 mAh</span></div>
-            <div class="data-line"><span>Hambatan Dalam:</span> <span class="value" id="ir-3">0 mOhm</span></div>
-            <div class="data-line"><span>Status Alat:</span> <span class="status-val" id="status-3">MEMBACA...</span></div>
-            <div class="btn-group">
-                <button class="btn-charge" onclick="kirimPerintah('c3')">CHARGE</button>
-                <button class="btn-test" onclick="kirimPerintah('t3')">SMART TEST</button>
-            </div>
-        </div>
-        <div class="card">
-            <h3>SLOT 4</h3>
-            <div class="data-line"><span>Tegangan:</span> <span class="value" id="volt-4">0.00 V</span></div>
-            <div class="data-line"><span>Kapasitas:</span> <span class="value" id="mah-4">0 mAh</span></div>
-            <div class="data-line"><span>Hambatan Dalam:</span> <span class="value" id="ir-4">0 mOhm</span></div>
-            <div class="data-line"><span>Status Alat:</span> <span class="status-val" id="status-4">MEMBACA...</span></div>
-            <div class="btn-group">
-                <button class="btn-charge" onclick="kirimPerintah('c4')">CHARGE</button>
-                <button class="btn-test" onclick="kirimPerintah('t4')">SMART TEST</button>
-            </div>
-        </div>
-        <div class="card">
-            <h3>SLOT 5</h3>
-            <div class="data-line"><span>Tegangan:</span> <span class="value" id="volt-5">0.00 V</span></div>
-            <div class="data-line"><span>Kapasitas:</span> <span class="value" id="mah-5">0 mAh</span></div>
-            <div class="data-line"><span>Hambatan Dalam:</span> <span class="value" id="ir-5">0 mOhm</span></div>
-            <div class="data-line"><span>Status Alat:</span> <span class="status-val" id="status-5">MEMBACA...</span></div>
-            <div class="btn-group">
-                <button class="btn-charge" onclick="kirimPerintah('c5')">CHARGE</button>
-                <button class="btn-test" onclick="kirimPerintah('t5')">SMART TEST</button>
-            </div>
-        </div>
-        <div class="card">
-            <h3>SLOT 6</h3>
-            <div class="data-line"><span>Tegangan:</span> <span class="value" id="volt-6">0.00 V</span></div>
-            <div class="data-line"><span>Kapasitas:</span> <span class="value" id="mah-6">0 mAh</span></div>
-            <div class="data-line"><span>Hambatan Dalam:</span> <span class="value" id="ir-6">0 mOhm</span></div>
-            <div class="data-line"><span>Status Alat:</span> <span class="status-val" id="status-6">MEMBACA...</span></div>
-            <div class="btn-group">
-                <button class="btn-charge" onclick="kirimPerintah('c6')">CHARGE</button>
-                <button class="btn-test" onclick="kirimPerintah('t6')">SMART TEST</button>
-            </div>
-        </div>
+    <div class="grid">
+        <!-- Struktur Loop Otomatis Generate 6 Slot agar HTML Bersih -->
+        <script>
+            for (let i = 1; i <= 6; i++) {
+                document.write(`
+                    <div class="card">
+                        <h3>SLOT ${i}</h3>
+                        <div class="data-line"><span>Tegangan:</span> <span class="value" id="volt-${i}">0.00 V</span></div>
+                        <div class="data-line"><span>Kapasitas:</span> <span class="value" id="mah-${i}">0 mAh</span></div>
+                        <div class="data-line"><span>Hambatan Dalam:</span> <span class="value" id="ir-${i}">0 mOhm</span></div>
+                        <div class="data-line"><span>Status Alat:</span> <span class="status-val" id="status-${i}">MEMBACA...</span></div>
+                        <div class="btn-group">
+                            <button class="btn-charge" onclick="kirimPerintah('c${i}')">CHARGE</button>
+                            <button class="btn-test" onclick="kirimPerintah('t${i}')">SMART TEST</button>
+                        </div>
+                    </div>
+                `);
+            }
+        </script>
     </div>
 
     <script>
-        // Konfigurasi Lengkap Firebase Sesuai Akun SDK Regional Asia Anda
+        // Konfigurasi Database Regional Asia Tenggara Anda
         const firebaseConfig = {
           apiKey: "AIzaSyAR5OzScCw3TcQLmK0fAi5qO2UITlCtW3A",
           authDomain: "://firebaseapp.com",
@@ -140,38 +87,32 @@
           messagingSenderId: "248367305274",
           appId: "1:248367305274:web:c9c72c44d6245d216fdb03"
         };
-
         
-        try {
-            firebase.initializeApp(firebaseConfig);
-            const database = firebase.database();
+        // Inisialisasi Layanan Jaringan Firebase
+        firebase.initializeApp(firebaseConfig);
+        const database = firebase.database();
 
-            // Mendengarkan data sensor real-time
-            database.ref('/').on('value', (snapshot) => {
-                const data = snapshot.val();
-                if (!data) return;
+        // Menerima data sensor secara Real-Time dari Firebase ke Browser Web
+        database.ref('/').on('value', (snapshot) => {
+            const data = snapshot.val();
+            if (!data) return;
 
-                for (let i = 1; i <= 6; i++) {
-                    const slotData = data['slot' + i];
-                    if (slotData) {
-                        if (slotData.volt !== undefined) document.getElementById(`volt-${i}`).innerText = Number(slotData.volt).toFixed(2) + " V";
-                        if (slotData.mah !== undefined) document.getElementById(`mah-${i}`).innerText = slotData.mah + " mAh";
-                        if (slotData.ir !== undefined) document.getElementById(`ir-${i}`).innerText = slotData.ir + " mOhm";
-                        if (slotData.status !== undefined) document.getElementById(`status-${i}`).innerText = slotData.status;
-                    }
+            for (let i = 1; i <= 6; i++) {
+                const slotData = data['slot' + i];
+                if (slotData) {
+                    if (slotData.volt !== undefined) document.getElementById(`volt-${i}`).innerText = Number(slotData.volt).toFixed(2) + " V";
+                    if (slotData.mah !== undefined) document.getElementById(`mah-${i}`).innerText = slotData.mah + " mAh";
+                    if (slotData.ir !== undefined) document.getElementById(`ir-${i}`).innerText = slotData.ir + " mOhm";
+                    if (slotData.status !== undefined) document.getElementById(`status-${i}`).innerText = slotData.status;
                 }
-            });
-
-            // Mengirim perintah remote kontrol
-            function kirimPerintah(kodePerintah) {
-                database.ref('/kontrol').set(kodePerintah)
-                    .then(() => alert("Perintah " + kodePerintah.toUpperCase() + " Berhasil Dikirim!"))
-                    .catch((error) => alert("Gagal kirim perintah: " + error.message));
             }
-            // Bind fungsi ke window scope agar bisa dipanggil onclick HTML
-            window.kirimPerintah = kirimPerintah;
-        } catch(e) {
-            console.error("Firebase Initialization Error:", e);
+        });
+
+        // Mengirimkan instruksi balik (Kontrol Jarak Jauh 2-Arah)
+        function kirimPerintah(kodePerintah) {
+            database.ref('/kontrol').set(kodePerintah)
+                .then(() => alert("Perintah " + kodePerintah.toUpperCase() + " Sukses Terkirim!"))
+                .catch((error) => alert("Gagal: " + error.message));
         }
     </script>
 </body>
